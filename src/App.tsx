@@ -16,12 +16,12 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <>
         <Routes>
           <Route path="/" element={<Photos />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
         </Routes>
-      </main>
+      </>
     </>
   );
 }
