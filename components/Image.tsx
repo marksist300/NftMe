@@ -8,16 +8,28 @@ type Props = {
   favorited: Boolean;
 };
 const Image = ({ className, img, id, favorited }: Props) => {
-  const { setFavorite } = useContext(context);
+  const { setFavorite, addToCart, cartItems } = useContext(context);
   const [hover, setHover] = useState<Boolean>(false);
   const itemHovered = () => {
-    console.log(favorited, id);
     setHover(true);
   };
 
   const itemHoverFinished = () => {
     setHover(false);
   };
+  function cartIcon() {
+    const alreadyInCart = cartItems.some(item => item.id === id);
+    if (alreadyInCart) {
+      return <i className="ri-shopping-cart-fill cart"></i>;
+    } else {
+      return (
+        <i
+          className="ri-add-circle-line cart"
+          onClick={() => addToCart({ img, id, favorited })}
+        ></i>
+      );
+    }
+  }
 
   return (
     <div
@@ -35,7 +47,7 @@ const Image = ({ className, img, id, favorited }: Props) => {
           onClick={() => setFavorite(id)}
         ></i>
       )}
-      {hover && <i className="ri-add-circle-line cart"></i>}
+      {hover && cartIcon()}
       <img src={img} className="image-grid" />
     </div>
   );

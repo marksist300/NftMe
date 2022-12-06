@@ -3,22 +3,26 @@ import React from "react";
 type contextType = {
   photos: Object[] | undefined;
   setFavorite: (id: number) => void;
+  addToCart: (newItem: CartObject) => void;
+  cartItems: CartObject[];
 };
 
 interface Props {
   children: React.ReactNode;
 }
+interface CartObject {
+  img: string;
+  id: number;
+  favorited: Boolean;
+}
 
 const context = createContext<contextType>({} as contextType);
 const ContextProvider: React.FC<Props> = ({ children }) => {
   const [photos, setPhotos] = useState<Object[]>();
-  console.log("photos: ", photos);
+  const [cartItems, setCartItems] = useState<Array<CartObject>>([]);
   const setFavorite = (id: number) => {
     const favorited = photos?.map((photo: any) => {
       if (photo.id === id) {
-        console.log(typeof photo);
-        console.log(photo.id);
-        console.log(photo.isFavorite);
         return {
           ...photo,
           isFavorite: !photo.isFavorite,
@@ -28,6 +32,12 @@ const ContextProvider: React.FC<Props> = ({ children }) => {
     });
     setPhotos(favorited);
   };
+
+  function addToCart(newItem: CartObject) {
+    setCartItems(prevItems => [...prevItems, newItem]);
+  }
+  console.log("added to Cart");
+  console.log("items: ", cartItems);
   useEffect(() => {
     const getData = async () => {
       const retrieve = await fetch(
@@ -39,7 +49,7 @@ const ContextProvider: React.FC<Props> = ({ children }) => {
     getData();
   }, []);
   return (
-    <context.Provider value={{ photos, setFavorite }}>
+    <context.Provider value={{ photos, setFavorite, addToCart, cartItems }}>
       {children}
     </context.Provider>
   );
