@@ -8,7 +8,8 @@ type Props = {
   favorited: Boolean;
 };
 const Image = ({ className, img, id, favorited }: Props) => {
-  const { setFavorite, addToCart, cartItems } = useContext(context);
+  const { setFavorite, addToCart, cartItems, removeFromCart } =
+    useContext(context);
   const [hover, setHover] = useState<Boolean>(false);
   const itemHovered = () => {
     setHover(true);
@@ -20,7 +21,12 @@ const Image = ({ className, img, id, favorited }: Props) => {
   function cartIcon() {
     const alreadyInCart = cartItems.some(item => item.id === id);
     if (alreadyInCart) {
-      return <i className="ri-shopping-cart-fill cart"></i>;
+      return (
+        <i
+          className="ri-shopping-cart-fill cart"
+          onClick={() => removeFromCart({ id })}
+        ></i>
+      );
     } else {
       return (
         <i

@@ -5,15 +5,16 @@ type contextType = {
   setFavorite: (id: number) => void;
   addToCart: (newItem: CartObject) => void;
   cartItems: CartObject[];
+  removeFromCart: (item: CartObject) => void;
 };
 
 interface Props {
   children: React.ReactNode;
 }
 interface CartObject {
-  img: string;
+  img?: string;
   id: number;
-  favorited: Boolean;
+  favorited?: Boolean;
 }
 
 const context = createContext<contextType>({} as contextType);
@@ -33,9 +34,14 @@ const ContextProvider: React.FC<Props> = ({ children }) => {
     setPhotos(favorited);
   };
 
-  function addToCart(newItem: CartObject) {
+  const addToCart = (newItem: CartObject) => {
     setCartItems(prevItems => [...prevItems, newItem]);
-  }
+  };
+
+  const removeFromCart = (item: CartObject) => {
+    setCartItems(prevItems => prevItems.filter(elem => elem.id !== item.id));
+  };
+
   console.log("added to Cart");
   console.log("items: ", cartItems);
   useEffect(() => {
@@ -49,7 +55,9 @@ const ContextProvider: React.FC<Props> = ({ children }) => {
     getData();
   }, []);
   return (
-    <context.Provider value={{ photos, setFavorite, addToCart, cartItems }}>
+    <context.Provider
+      value={{ photos, setFavorite, addToCart, cartItems, removeFromCart }}
+    >
       {children}
     </context.Provider>
   );
