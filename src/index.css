@@ -32,6 +32,7 @@ main.cart-page {
 
 .cart-page > h1 {
   text-align: center;
+  font-size: 2rem;
 }
 
 .cart-page .total-cost {
