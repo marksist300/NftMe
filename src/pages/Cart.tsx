@@ -7,7 +7,23 @@ const Cart = () => {
   const cartUrls = cartItems.map(elem => (
     <CartItem key={elem.id} id={elem.id} url={elem.img} />
   ));
-  return <main>{cartUrls}</main>;
+  return (
+    <main className="cart-page">
+      {cartUrls}
+      <p className="total-cost">
+        Total :{" "}
+        {(5.99 * cartItems.length).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}
+      </p>
+      <div className="order-button">
+        <button className="bg-slate-500 rounded-lg text-white">
+          Place Your Order
+        </button>
+      </div>
+    </main>
+  );
 };
 
 export default Cart;
