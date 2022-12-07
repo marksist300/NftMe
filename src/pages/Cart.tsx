@@ -5,7 +5,7 @@ const Cart = () => {
   const { cartItems } = useContext(context);
 
   const cartUrls = cartItems.map(elem => (
-    <CartItem key={elem.id} url={elem.img} />
+    <CartItem key={elem.id} id={elem.id} url={elem.img} />
   ));
   return <main>{cartUrls}</main>;
 };
